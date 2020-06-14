@@ -1,6 +1,11 @@
-from flask import Flask, render_template
+from flask import render_template
+import connexion
+from flask_cors import CORS
 
-app = Flask(__name__, template_folder="templates")
+app = connexion.App(__name__, specification_dir='./')
+
+app.add_api('swagger.yml')
+CORS(app.app, resources='/api/*', methods=['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'])
 
 @app.route('/')
 def home():
@@ -8,4 +13,3 @@ def home():
 
 if __name__=='__main__':
   app.run(host='0.0.0.0', port=5000, debug=True)
-
